@@ -7,14 +7,17 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
     <!-- <button ion-button (click)="openPage()">
       <ion-icon name="menu"></ion-icon>
     </button>
      -->
-    <button ion-button (click)="findLocations()">
-      Find Locations
-    </button>
+
+    <div class="loading" *ngIf="loading">LOADING</div>
   <div #map id="map"></div>
+  <button ion-button full dark class="nextButton" (click)="findLocations()">
+    Find Locations
+  </button>
+
 </ion-content>

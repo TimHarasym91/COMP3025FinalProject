@@ -17,12 +17,14 @@ export class Home {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   data: any;
+  loading: boolean;
   locationList: Object[];
 
   constructor(public navCtrl: NavController, private geolocation: Geolocation, private http:Http) {
   }
 
   findLocations(){
+    this.loading = true;
     this.loadMap();
   }
 
@@ -58,21 +60,24 @@ export class Home {
   addMarker(data){
     this.locationList = data.results;
     var randomIndex = Math.floor(Math.random() * (this.locationList.length +1));
-
-
-    console.log(randomIndex);
-
     var item = data.results[randomIndex];
-      // var name = item.name;
-      // var icon = item.icon;
-      // var rating = item.rating;
-      var pos = item.geometry.location;
-      //console.log(pos);
-      var marker = new google.maps.Marker({
-        map: this.map,
-        animation: google.maps.Animation.DROP,
-        position: pos
-      });
+    var name = item.name;
+    var icon = item.icon;
+    var rating = item.rating;
+    var pos = item.geometry.location;
+    var marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      position: pos
+    });
+    var infoWindow= new google.maps.InfoWindow({
+      content: "<h4>"+name+"</h4><img src='"+icon+"' /><br/><p>Rating: "+rating+"</p>"
+    })
+    google.maps.event.addListener(marker, 'click', function () {
+      infoWindow.open(this.map, marker);
+    });
+    this.map.setCenter(marker.getPosition());
+    this.loading = false;
   }
 
   addInfoWindow(marker, content){
