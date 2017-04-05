@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Nearby Locations</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <!-- <button ion-button (click)="openPage()">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+     -->
+    <button ion-button (click)="findLocations()">
+      Find Locations
+    </button>
+  <div #map id="map"></div>
+</ion-content>
