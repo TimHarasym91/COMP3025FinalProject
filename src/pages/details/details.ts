@@ -7,12 +7,19 @@ import { NavController, NavParams, Platform } from 'ionic-angular';
   templateUrl: 'details.html'
 })
 export class Details {
+  name: any;
+  icon: any;
+  rating: any;
 
-  constructor(public navCtrl: NavController) {
-
+public infoList:any;
+  constructor(public navCtrl: NavController, public info:NavParams) {
+    this.infoList = info.get("locationInfo");
+    this.name = this.infoList.name;
+    this.icon = this.infoList.icon;
+    this.rating = this.infoList.rating;
   }
 
   ionViewDidLoad(){
-    console.log('Success!');
+    console.log(this.name);
   }
 }

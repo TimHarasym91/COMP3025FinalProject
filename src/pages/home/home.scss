@@ -15,9 +15,19 @@
 }
 /* Full Width Next Button */
 .nextButton{
-  width: 100%;
+  width: 80%;
   height: 8%;
   background:#3e3e3e;
+  float: left;
+}
+.detailsButton{
+  width: 20%;
+  height: 8%;
+  float: right;
+}
+.mainButton{
+margin-top: 55%;
+height: 10%;
 }
 
 /* Absolute Center Spinner */
