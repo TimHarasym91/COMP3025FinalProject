@@ -88,13 +88,15 @@ export class Home {
     //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=YOUR_API_KEY
     var location = lat + ',' + lng;
     var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + encodeURI(location) + '&radius=' + radius + '&type=restaurant&key=AIzaSyBCsfico0CX2HojOEZL_-L0IGRNtWz4rvA&callback=?';
-    this.http.get(url).toPromise().then(res => { this.addMarker(res.json()) }).catch(err => { console.log(err); });
+    this.http.get(url).toPromise().then(res => {
+      this.addMarker(res.json());
+      this.savedResults = res.json().results;
+    }).catch(err => { console.log(err); });
   }
 
   addMarker(data) {
     console.log("Total locations: " + data.results.length);
     this.data = data;
-    this.savedResults = data.results;
     this.locationList = data.results;
     var randomIndex = Math.floor(Math.random() * (this.locationList.length));
     var item = data.results[randomIndex];

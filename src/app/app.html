@@ -22,7 +22,7 @@
         <ion-badge item-right class="badge">{{ starRating }} <ion-icon name="star"></ion-icon></ion-badge>
       </ion-list-header>
       <ion-item>
-        <ion-range class="range" color="secondary" step="1" snaps="true" min="0" max="50" (ionChange)="rating($event)">
+        <ion-range class="range" color="secondary" step="1" snaps="true" min="1" max="50" (ionChange)="rating($event)">
           <ion-icon range-left><ion-icon name="star-outline"></ion-icon></ion-icon>
           <ion-icon range-right><ion-icon name="star"></ion-icon></ion-icon>
         </ion-range>
