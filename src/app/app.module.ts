@@ -2,6 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Home } from '../pages/home/home';
+import { FilterService } from '../services/filter.service';
 import { Details } from '../pages/details/details';
 import { HttpModule } from '@angular/http';
 
@@ -26,6 +27,7 @@ import { Geolocation } from '@ionic-native/geolocation';
     Details
   ],
   providers: [
+    FilterService,
     StatusBar,
     SplashScreen,
     Geolocation,
