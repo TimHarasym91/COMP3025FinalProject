@@ -89,6 +89,7 @@ export class Home {
     google.maps.event.addListener(marker, 'click', function () {
       infoWindow.open(this.map, marker);
     });
+    new google.maps.event.trigger( marker, 'click' );
     this.map.setCenter(marker.getPosition());
     this.loading = false;
   }

@@ -1,14 +1,15 @@
 
+$navbar-md-height: 10%;
 .ios, .md {
   home-page {
 
     .scroll-content {
-      height: 100%
+      min-height: 100%;
     }
 
     #map {
       width: 100%;
-      height: 80%;
+      height: 100vh;
     }
 
   }
@@ -16,14 +17,19 @@
 /* Full Width Next Button */
 .nextButton{
   width: 80%;
-  height: 10%;
+  //height: 100%;
   background:#3e3e3e;
   float: left;
 }
 .detailsButton{
   width: 20%;
-  height: 10%;
+  //height: 100%;
   float: right;
+}
+.footer{
+  position:absolute;
+  height:auto;
+  width: 100%;
 }
 .mainButton{
 margin-top: 55%;
