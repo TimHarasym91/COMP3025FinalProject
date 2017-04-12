@@ -35,17 +35,17 @@ export class Home {
     this.filters = new Filters();
     this.radius = this.filterService.getRadius();
     this.filterService.radius.subscribe((radius) => {
-      this.radius = radius;
-      this.findLocations();
-      console.log("update radius: " + this.radius);
+      if(radius != this.radius) {
+        this.radius = radius;
+        this.findLocations();
+      }
     });
     this.filterService.rating.subscribe((rating) => {
-      this.data.results = this.savedResults;
-      console.log(this.savedResults);
-      this.rating = rating;
-      console.log("update rating: " + this.rating);
-      var y = parseFloat(this.rating);
-      this.data.results = this.data.results.filter(x => x.rating >= y);
+      if(rating != this.rating) {
+        this.data.results = this.savedResults;
+        this.rating = rating;
+        this.findLocations();
+      }
     });
   }
 
@@ -89,14 +89,17 @@ export class Home {
     var location = lat + ',' + lng;
     var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + encodeURI(location) + '&radius=' + radius + '&type=restaurant&key=AIzaSyBCsfico0CX2HojOEZL_-L0IGRNtWz4rvA&callback=?';
     this.http.get(url).toPromise().then(res => {
-      this.addMarker(res.json());
       this.savedResults = res.json().results;
-    }).catch(err => { console.log(err); });
+      this.addMarker(res.json());
+    }).catch(err => { console.log(err); if(confirm("There was an issue applying the filters. Reload?")) {this.rating = null; this.findLocations();} });
   }
 
   addMarker(data) {
     console.log("Total locations: " + data.results.length);
     this.data = data;
+    if(this.rating) {
+      this.data.results = this.data.results.filter(x => x.rating >= parseFloat(this.rating));
+    }
     this.locationList = data.results;
     var randomIndex = Math.floor(Math.random() * (this.locationList.length));
     var item = data.results[randomIndex];
