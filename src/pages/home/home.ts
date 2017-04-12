@@ -41,6 +41,7 @@ export class Home {
     });
     this.filterService.rating.subscribe((rating) => {
       this.data.results = this.savedResults;
+      console.log(this.savedResults);
       this.rating = rating;
       console.log("update rating: " + this.rating);
       var y = parseFloat(this.rating);
@@ -94,7 +95,6 @@ export class Home {
     console.log("Total locations: " + data.results.length);
     this.data = data;
     this.savedResults = data.results;
-    console.log(this.savedResults);
     this.locationList = data.results;
     var randomIndex = Math.floor(Math.random() * (this.locationList.length));
     var item = data.results[randomIndex];
