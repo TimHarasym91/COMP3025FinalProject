@@ -11,5 +11,7 @@
   <h3>{{name}}</h3>
   <ion-list>
     <p><strong>Rating:</strong>{{rating}}</p>
+    <p *ngIf="photo"><strong>Photo:</strong>
+    <img src='{{photo}}' /></p>
   </ion-list>
 </ion-content>
