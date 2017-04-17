@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { Details } from '../details/details';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Http } from '@angular/http';
@@ -30,23 +30,35 @@ export class Home {
   filters: Filters;
   radius: any;
   rating: any;
+  keyword:any = 'restaurants';
+  locationIndex: any = 0;
 
-  constructor(public navCtrl: NavController, private geolocation: Geolocation, private http: Http, public filterService: FilterService) {
+  constructor(public navCtrl: NavController, private geolocation: Geolocation, private http: Http, public filterService: FilterService, private alertCtrl: AlertController) {
     this.filters = new Filters();
     this.radius = this.filterService.getRadius();
     this.filterService.radius.subscribe((radius) => {
       if(radius != this.radius) {
+        console.log("distance change");
         this.radius = radius;
-        this.findLocations();
       }
     });
     this.filterService.rating.subscribe((rating) => {
       if(rating != this.rating) {
+        console.log("star rating change");
         this.data.results = this.savedResults;
         this.rating = rating;
-        this.findLocations();
       }
     });
+    this.filterService.keyword.subscribe((keyword) => {
+      if(keyword != this.keyword) {
+        console.log("keyword change");
+        this.keyword = keyword;
+      }
+    });
+    this.filterService.apply.subscribe((apply) => {
+      this.findLocations();
+    });
+
   }
 
   findLocations() {
@@ -87,7 +99,8 @@ export class Home {
   searchLocations(lat, lng, radius) {
     //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=YOUR_API_KEY
     var location = lat + ',' + lng;
-    var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + encodeURI(location) + '&radius=' + radius + '&type=restaurant&key=AIzaSyBCsfico0CX2HojOEZL_-L0IGRNtWz4rvA&callback=?';
+    var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?sensor=false&location=' + encodeURI(location) + '&radius=' + radius + '&key=AIzaSyBCsfico0CX2HojOEZL_-L0IGRNtWz4rvA&callback=?&keyword=' + this.keyword + '';
+    console.log(url);
     this.http.get(url).toPromise().then(res => {
       this.savedResults = res.json().results;
       this.addMarker(res.json());
@@ -95,36 +108,45 @@ export class Home {
   }
 
   addMarker(data) {
-    console.log("Total locations: " + data.results.length);
-    this.data = data;
-    if(this.rating) {
-      this.data.results = this.data.results.filter(x => x.rating >= parseFloat(this.rating));
+    try {
+      console.log("Total locations: " + data.results.length);
+      this.data = data;
+      if(this.rating) {
+        this.data.results = this.data.results.filter(x => x.rating >= parseFloat(this.rating));
+      }
+      this.locationList = data.results;
+      //var randomIndex = Math.floor(Math.random() * (this.locationList.length));
+      var item = data.results[this.locationIndex];
+      this.currentItem = item;
+      var name = item.name;
+      var icon = item.icon;
+      var rating = item.rating;
+      var pos = item.geometry.location;
+      var marker = new google.maps.Marker({
+        map: this.map,
+        animation: google.maps.Animation.DROP,
+        position: pos
+      });
+      this.markers.push(marker);
+
+      var infoWindow = new google.maps.InfoWindow({
+        content: "<h4>" + name + "</h4><button ion-button full onclick='clickGo()'> Details </button><img width='32' height='32' src='" + icon + "' /><br/><p>Rating: " + rating + "</p>"
+      })
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.open(this.map, marker);
+      });
+      new google.maps.event.trigger( marker, 'click' );
+      this.map.setCenter(marker.getPosition());
+      this.loading = false;
+      if(this.locationIndex != data.results.length - 1) {
+        this.locationIndex++;
+      } else {
+        this.locationIndex = 0;
+      }
+    } catch (err) {
+      this.presentConfirm(err);
     }
-    this.locationList = data.results;
-    var randomIndex = Math.floor(Math.random() * (this.locationList.length));
-    var item = data.results[randomIndex];
-    this.currentItem = item;
-    var name = item.name;
-    var icon = item.icon;
-    var rating = item.rating;
-    var pos = item.geometry.location;
-    var marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      position: pos
-    });
-    this.markers.push(marker);
-
-    var infoWindow = new google.maps.InfoWindow({
-      content: "<h4>" + name + "</h4><button ion-button full onclick='clickGo()'> Details </button><img width='32' height='32' src='" + icon + "' /><br/><p>Rating: " + rating + "</p>"
-    })
-
-    google.maps.event.addListener(marker, 'click', function() {
-      infoWindow.open(this.map, marker);
-    });
-    new google.maps.event.trigger( marker, 'click' );
-    this.map.setCenter(marker.getPosition());
-    this.loading = false;
   }
 
   // Sets the map on all markers in the array.
@@ -156,5 +178,22 @@ export class Home {
     this.navCtrl.push(Details, {
       locationInfo: locationInfo
     });
+  }
+
+  presentConfirm(error) {
+    let alert = this.alertCtrl.create({
+      title: 'Error applying filters...',
+      message: 'Coulds not find locations with keyword ' + this.keyword + '. Try increasing your search radius and/or lowering your min star rating in the filters tab.',
+      buttons: [
+        {
+          text: 'Okay',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

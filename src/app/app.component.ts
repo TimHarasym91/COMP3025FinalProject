@@ -15,10 +15,11 @@ export class MyApp {
   @Input() filters: Filters;
   radiusKM: any;
   starRating: any;
+  keywordString: any;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public filterSerivce: FilterService, public menu: MenuController) {
     this.filters = new Filters();
-    this.radiusKM = 1.5;
+    this.radiusKM = 3;
     this.initializeApp();
   }
 
@@ -41,6 +42,12 @@ export class MyApp {
     this.filters.rating = this.starRating;
   }
 
+  keyword(event) {
+    this.keywordString = event;
+    console.log(event);
+    this.filters.keyword = this.keywordString;
+  }
+
   applyFilters(event) {
     if(this.filters.radius) {
       this.filterSerivce.setRadius(this.filters.radius);
@@ -48,6 +55,10 @@ export class MyApp {
     if(this.filters.rating) {
       this.filterSerivce.setRating(this.filters.rating);
     }
+    if(this.filters.keyword) {
+      this.filterSerivce.setKeyword(this.filters.keyword);
+    }
+    this.filterSerivce.applyClicked();
     this.menu.close();
   }
 
