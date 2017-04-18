@@ -22,9 +22,9 @@ $navbar-md-height: 10%;
   display: none;
 }
 
-.toolbar-md {
+.toolbar-md, .toolbar-ios{
     padding: 0px;
-    min-height: 0px;
+    min-height: 52px;
 }
 
 .button-md {
@@ -32,6 +32,10 @@ $navbar-md-height: 10%;
     height: 50px;
 }
 
+.button-ios {
+    margin: 0px;
+    height: 50px;
+}
 /* Full Width Next Button */
 .nextButton{
   width: 80%;

@@ -39,6 +39,7 @@ export class Home {
     this.filterService.radius.subscribe((radius) => {
       if(radius != this.radius) {
         console.log("distance change");
+        this.locationIndex = 0;
         this.radius = radius;
       }
     });
@@ -46,12 +47,14 @@ export class Home {
       if(rating != this.rating) {
         console.log("star rating change");
         // this.data.results = this.savedResults;
+        this.locationIndex = 0;
         this.rating = rating;
       }
     });
     this.filterService.keyword.subscribe((keyword) => {
       if(keyword != this.keyword) {
         console.log("keyword change");
+        this.locationIndex = 0;
         this.keyword = keyword;
       }
     });

@@ -8,13 +8,13 @@
 </ion-header>
 
 <ion-content>
-  <button *ngIf="!locationList" ion-button full class="mainButton resize" (click)="findLocations()">Find A Location</button>
+  <button *ngIf="!locationList" ion-button full class="mainButton resize" (click)="findLocations()">Start Search</button>
   <div class="loading" *ngIf="loading">LOADING</div>
   <div #map id="map"></div>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="mapLoaded">
   <ion-toolbar>
-    <button *ngIf="mapLoaded" ion-button full class="nextButton" (click)="nextLocations(this.data)">Next Location</button>
+    <button ion-button full class="nextButton" (click)="nextLocations(this.data)">Next Location</button>
     <button id="go" *ngIf="mapLoaded" ion-button full class="detailsButton" (click)="openPage(this.currentItem)">Details</button>
   </ion-toolbar>
 </ion-footer>
