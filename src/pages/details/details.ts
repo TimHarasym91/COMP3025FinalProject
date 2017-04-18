@@ -16,6 +16,8 @@ export class Details {
   phone: any;
   address: any;
   photos: any;
+  photoHeight: any;
+  photoWidth: any;
   photoString: any;
   photo: any;
   reviews: any;
@@ -37,12 +39,14 @@ public infoList:any;
     if(!this.photos){
       this.photo = false;
     }else{
+      this.photoHeight = this.infoList.photos[0].height;
+      this.photoWidth = this.infoList.photos[0].width;
       this.photoString = this.infoList.photos[0].photo_reference;
       this.photo = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+this.photoString+'&key=AIzaSyBCsfico0CX2HojOEZL_-L0IGRNtWz4rvA';
     }
   }
 
   ionViewDidLoad(){
-    console.log(this.name);
+    console.log(this.photoHeight + "x" + this.photoWidth);
   }
 }

@@ -45,7 +45,7 @@ export class Home {
     this.filterService.rating.subscribe((rating) => {
       if(rating != this.rating) {
         console.log("star rating change");
-        this.data.results = this.savedResults;
+        // this.data.results = this.savedResults;
         this.rating = rating;
       }
     });
@@ -130,7 +130,7 @@ export class Home {
       this.markers.push(marker);
 
       var infoWindow = new google.maps.InfoWindow({
-        content: "<h4>" + name + "</h4><button ion-button full onclick='clickGo()'> Details </button><img width='32' height='32' src='" + icon + "' /><br/><p>Rating: " + rating + "</p>"
+        content: "<div onclick='clickGo()' class='infoWindow'><h4>" + name + "</h4><p>Rating: " + rating + "</p></div>"
       })
 
       google.maps.event.addListener(marker, 'click', function() {

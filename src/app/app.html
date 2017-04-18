@@ -13,40 +13,54 @@
       </ion-list-header>
       <ion-item>
         <ion-range class="range" color="secondary" step="100" snaps="true" min="3000" max="9000" (ionChange)="radius($event)">
-          <ion-icon range-left><ion-icon name="minus"></ion-icon></ion-icon>
-          <ion-icon range-right><ion-icon name="add"></ion-icon></ion-icon>
+          <ion-icon range-left>
+            <ion-icon name="minus"></ion-icon>
+          </ion-icon>
+          <ion-icon range-right>
+            <ion-icon name="add"></ion-icon>
+          </ion-icon>
         </ion-range>
       </ion-item>
       <ion-list-header class="item list-header">
         <ion-label>MIN STAR RATING</ion-label>
-        <ion-badge item-right class="badge">{{ starRating }} <ion-icon name="star"></ion-icon></ion-badge>
+        <ion-badge item-right class="badge">{{ starRating }}
+          <ion-icon name="star"></ion-icon>
+        </ion-badge>
       </ion-list-header>
       <ion-item>
         <ion-range class="range" color="secondary" step="1" snaps="true" min="1" max="40" (ionChange)="rating($event)">
-          <ion-icon range-left><ion-icon name="star-outline"></ion-icon></ion-icon>
-          <ion-icon range-right><ion-icon name="star"></ion-icon></ion-icon>
+          <ion-icon range-left>
+            <ion-icon name="star-outline"></ion-icon>
+          </ion-icon>
+          <ion-icon range-right>
+            <ion-icon name="star"></ion-icon>
+          </ion-icon>
         </ion-range>
       </ion-item>
       <ion-list-header class="item list-header">
         <ion-label>KEYWORD</ion-label>
-        <ion-badge item-right class="badge">{{ keywordString }} <ion-icon name="key"></ion-icon></ion-badge>
+        <ion-badge item-right class="badge">{{ keywordString }}
+          <ion-icon name="key"></ion-icon>
+        </ion-badge>
       </ion-list-header>
       <ion-item>
-      <ion-select (ionChange)="keyword($event)">
-        <ion-option value="restaurants" selected="true">All</ion-option>
-        <ion-option value="pizza">Pizza</ion-option>
-        <ion-option value="mexican">Mexican</ion-option>
-        <ion-option value="italian">Italian</ion-option>
-        <ion-option value="chinese">Chinese</ion-option>
-        <ion-option value="bbq">BBQ</ion-option>
-        <ion-option value="breakfast">Breakfast</ion-option>
-        <ion-option value="bar">Bar</ion-option>
-        <ion-option value="sushi">Sushi</ion-option>
-        <ion-option value="fast%20food">Fast Food</ion-option>
-        <ion-option value="grocery">Grocery</ion-option>
-      </ion-select>
-    </ion-item>
-      <button style="float:right;" ion-button (click)="applyFilters($event)">Apply</button>
+        <ion-select (ionChange)="keyword($event)">
+          <ion-option value="restaurants" selected="true">All</ion-option>
+          <ion-option value="pizza">Pizza</ion-option>
+          <ion-option value="mexican">Mexican</ion-option>
+          <ion-option value="italian">Italian</ion-option>
+          <ion-option value="chinese">Chinese</ion-option>
+          <ion-option value="sushi">Sushi</ion-option>
+          <ion-option value="bbq">BBQ</ion-option>
+          <ion-option value="breakfast">Breakfast</ion-option>
+          <ion-option value="bar">Bar</ion-option>
+          <ion-option value="fast%20food">Fast Food</ion-option>
+          <ion-option value="grocery">Grocery</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-footer>
+        <button ion-button class="apply" (click)="applyFilters($event)">Apply</button>
+      </ion-footer>
     </ion-list>
   </ion-content>
 </ion-menu>
