@@ -96,6 +96,9 @@ export class Home {
 
     }, (err) => {
       console.log(err);
+      var title = 'Error getting current position...';
+      var msg = 'Make sure location services are turned on.';
+      this.presentConfirm(title, msg);
     });
   }
 
@@ -107,7 +110,15 @@ export class Home {
     this.http.get(url).toPromise().then(res => {
       this.savedResults = res.json().results;
       this.addMarker(res.json());
-    }).catch(err => { console.log(err); if(confirm("There was an issue applying the filters. Reload?")) {this.rating = null; this.findLocations();} });
+    }).catch(err => {
+      var title = 'Error fetching data...';
+      var msg = 'Probably a CORS issue...';
+      this.presentConfirm(title, msg);
+      // if(confirm("There was an issue applying the filters. Reload?")) {
+      //   this.rating = null;
+      //   this.findLocations();
+      // }
+    });
   }
 
   addMarker(data) {
@@ -122,8 +133,16 @@ export class Home {
       var item = data.results[this.locationIndex];
       this.currentItem = item;
       var name = item.name;
-      var icon = item.icon;
       var rating = item.rating;
+      var open = item.opening_hours.open_now;
+      var color;
+      if(open) {
+        open = "Open";
+        color = "green";
+      } else {
+        open = "Closed";
+        color = "red";
+      }
       var pos = item.geometry.location;
       var marker = new google.maps.Marker({
         map: this.map,
@@ -133,7 +152,7 @@ export class Home {
       this.markers.push(marker);
 
       var infoWindow = new google.maps.InfoWindow({
-        content: "<div onclick='clickGo()' class='infoWindow'><h4>" + name + "</h4><p>Rating: " + rating + "</p></div>"
+        content: "<div onclick='clickGo()' class='infoWindow'><h4>" + name + "</h4><p style='color:" + color + "'>" + open + "</p><p>Rating: " + rating + "</p></div>"
       })
 
       google.maps.event.addListener(marker, 'click', function() {
@@ -148,7 +167,9 @@ export class Home {
         this.locationIndex = 0;
       }
     } catch (err) {
-      this.presentConfirm(err);
+      var title = 'Error applying filters...';
+      var msg = 'Coulds not find locations with keyword ' + this.keyword + '. Try increasing your search radius and/or lowering your min star rating in the filters tab.';
+      this.presentConfirm(title, msg);
     }
   }
 
@@ -176,17 +197,19 @@ export class Home {
   }
 
   //Simple Function for opening the Details Page... Will be used later for map pins
-  openPage(locationInfo) {
+  openPage(locationInfo, lat, lng) {
     console.log(locationInfo);
     this.navCtrl.push(Details, {
-      locationInfo: locationInfo
+      locationInfo: locationInfo,
+      lat: lat,
+      lng: lng
     });
   }
 
-  presentConfirm(error) {
+  presentConfirm(title, msg) {
     let alert = this.alertCtrl.create({
-      title: 'Error applying filters...',
-      message: 'Coulds not find locations with keyword ' + this.keyword + '. Try increasing your search radius and/or lowering your min star rating in the filters tab.',
+      title: title,
+      message: msg,
       buttons: [
         {
           text: 'Okay',

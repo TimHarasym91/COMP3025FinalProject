@@ -3,16 +3,27 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Details</ion-title>
+    <ion-title>{{name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="photo" class="portrait-crop">
-    <img id="detailImage" src='{{photo}}' />
-  </div>
-  <h3>{{name}}</h3>
-  <ion-list>
-    <p><strong>Rating:</strong>{{rating}}</p>
-  </ion-list>
+  <ion-card>
+    <ion-card-header>
+      Details
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <p><strong>Rating: </strong>{{rating}}</p>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <img src='{{photo}}' />
+  </ion-card>
+  <ion-card>
+    <div class="button_holder">
+      <a class="full_button" target="_blank" href="https://www.google.ca/maps/dir/{{myLocation}}/{{destination}}">Get Directions</a>
+    </div>
+  </ion-card>
 </ion-content>

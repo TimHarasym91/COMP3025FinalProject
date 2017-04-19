@@ -23,10 +23,18 @@ export class Details {
   reviews: any;
   open: any;
   openString: String;
+  lat: any;
+  lng: any;
+  destination: any;
+  myLocation: any;
 
 public infoList:any;
   constructor(public navCtrl: NavController, public info:NavParams) {
     this.infoList = info.get("locationInfo");
+    this.lat = info.get("lat");
+    this.lng = info.get("lng");
+    this.myLocation = this.lat+','+this.lng;
+    this.destination = this.infoList.geometry.location.lat+','+this.infoList.geometry.location.lng;
     this.name = this.infoList.name;
     this.icon = this.infoList.icon;
     this.rating = this.infoList.rating;
@@ -36,6 +44,7 @@ public infoList:any;
     this.phone = this.infoList.formatted_phone_number;
     this.address = this.infoList.formatted_address;
     this.photos = this.infoList.photos;
+
     if(!this.photos){
       this.photo = false;
     }else{
