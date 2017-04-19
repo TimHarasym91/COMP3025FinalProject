@@ -9,16 +9,13 @@
 
 <ion-content padding>
   <ion-card>
-    <ion-card-header>
-      Details
-    </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <p><strong>Rating: </strong>{{rating}}</p>
+        <p><strong><ion-icon style="color:orange" name="star"></ion-icon> Rating: </strong>{{rating}}</p>
       </ion-list>
     </ion-card-content>
   </ion-card>
-  <ion-card>
+  <ion-card *ngIf="photo">
     <img src='{{photo}}' />
   </ion-card>
   <ion-card>

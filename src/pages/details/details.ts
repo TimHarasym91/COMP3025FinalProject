@@ -44,7 +44,6 @@ public infoList:any;
     this.phone = this.infoList.formatted_phone_number;
     this.address = this.infoList.formatted_address;
     this.photos = this.infoList.photos;
-
     if(!this.photos){
       this.photo = false;
     }else{
@@ -56,6 +55,6 @@ public infoList:any;
   }
 
   ionViewDidLoad(){
-    console.log(this.photoHeight + "x" + this.photoWidth);
+    //console.log(this.photoHeight + "x" + this.photoWidth);
   }
 }

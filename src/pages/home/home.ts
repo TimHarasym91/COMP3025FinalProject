@@ -106,7 +106,6 @@ export class Home {
     //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=YOUR_API_KEY
     var location = lat + ',' + lng;
     var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?sensor=false&location=' + encodeURI(location) + '&radius=' + radius + '&key=AIzaSyBCsfico0CX2HojOEZL_-L0IGRNtWz4rvA&callback=?&keyword=' + this.keyword + '';
-    console.log(url);
     this.http.get(url).toPromise().then(res => {
       this.savedResults = res.json().results;
       this.addMarker(res.json());
@@ -133,15 +132,20 @@ export class Home {
       var item = data.results[this.locationIndex];
       this.currentItem = item;
       var name = item.name;
-      var rating = item.rating;
-      var open = item.opening_hours.open_now;
-      var color;
-      if(open) {
-        open = "Open";
-        color = "green";
-      } else {
-        open = "Closed";
-        color = "red";
+      try {
+        var rating = item.rating;
+        var open = item.opening_hours.open_now;
+        var color;
+        if(open) {
+          open = "Open";
+          color = "green";
+        } else {
+          open = "Closed";
+          color = "red";
+        }
+      } catch(err) {
+        open = '';
+        rating = '';
       }
       var pos = item.geometry.location;
       var marker = new google.maps.Marker({
@@ -167,9 +171,9 @@ export class Home {
         this.locationIndex = 0;
       }
     } catch (err) {
-      var title = 'Error applying filters...';
+      var title = 'Error placing marker...';
       var msg = 'Coulds not find locations with keyword ' + this.keyword + '. Try increasing your search radius and/or lowering your min star rating in the filters tab.';
-      this.presentConfirm(title, msg);
+      this.presentConfirm(title, err);
     }
   }
 
@@ -198,7 +202,6 @@ export class Home {
 
   //Simple Function for opening the Details Page... Will be used later for map pins
   openPage(locationInfo, lat, lng) {
-    console.log(locationInfo);
     this.navCtrl.push(Details, {
       locationInfo: locationInfo,
       lat: lat,
