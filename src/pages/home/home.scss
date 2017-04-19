@@ -5,6 +5,7 @@ $navbar-md-height: 10%;
 
     .scroll-content {
       min-height: 100vh;
+      background-image: url("../assets/img/blurMap2.png");
     }
 
     #map {
@@ -54,8 +55,10 @@ $navbar-md-height: 10%;
   width: 100%;
 }
 .mainButton{
-margin-top: 55%;
+  margin-top:-25%;
+top:50%;
 height: 10%;
+box-shadow: 1px 1px 7px #212121;
 }
 
 /* Absolute Center Spinner */
